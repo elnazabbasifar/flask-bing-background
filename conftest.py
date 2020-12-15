@@ -1,7 +1,6 @@
 import pytest
 
-#from bing import app as flask_app
-
+from bing import app as flask_app
 
 @pytest.fixture
 def app():
