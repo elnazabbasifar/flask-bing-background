@@ -1,10 +1,12 @@
-from flask import Flask, send_file, request
-from bing_background.bing import BingBackground as b
+from flask import Flask, send_file, request,jsonify
+from flask_cors import CORS 
+from bing_background.bing import Bing as b
 import requests
 import datetime
 import os
 
 app = Flask(__name__)
+CORS(app) 
 
 @app.route('/bing')
 @app.route('/bing/<int:day>')
@@ -19,8 +21,9 @@ def show_bing_url(day=0):
 
     content_type = request.mimetype
     if content_type == 'application/json':
-
-        return {'result' : result}
+        response = jsonify({'result' : result})
+        # response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     else:
         return result
 
@@ -43,4 +46,4 @@ def show_image(day=0):
     return send_file(file_path)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug = True)
