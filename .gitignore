@@ -1,2 +1,4 @@
 venv
 test.http
+__pycache__
+__pycache__/bing.cpython-37.pyc

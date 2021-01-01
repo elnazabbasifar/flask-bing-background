@@ -17,15 +17,22 @@ def show_bing_url(day=0):
         result = b().get_image_url(0)
     #list: urls of previous days
     else: 
-        result = str(b().get_list_of_urls(start=1, end=day))
+        result = b().get_list_of_urls(start=1, end=day)
 
-    content_type = request.mimetype
+    content_type = request.headers.get('Content-Type')  #request.mimetype
     if content_type == 'application/json':
-        response = jsonify({'result' : result})
+
+        if day>0:
+            res_dict = {}
+            for i in range(day):
+                res_dict[i] = result[i]
+            result = res_dict
+            
+        json_response = jsonify(result)
         # response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
+        return json_response
     else:
-        return result
+        return str(result)
 
 
 @app.route('/bing/load')
